@@ -23,23 +23,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.mosubookshelf.BookDetail
 import com.example.mosubookshelf.models.BookVO
 
 @Composable
 fun NewBooksScreen(
     modifier: Modifier = Modifier,
+    viewModel: NewBooksViewModel,
     useCase: NewBooksUseCase,
     navigateToDetail: (isbn13: String) -> Unit,
 ) {
-    var books by remember { mutableStateOf<List<BookVO>?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
-        books = useCase.getNewBooks()
+        viewModel.fetchNewBooks()
     }
-    if (books == null) {
+    if (uiState.books == null) {
         Text("Loading...")
     } else {
-        NewBooksView(books!!, modifier, navigateToDetail)
+        NewBooksView(uiState.books!!, modifier, navigateToDetail)
     }
 }
 
@@ -124,5 +124,5 @@ fun BookView(book: BookVO, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun NewBooksScreenPreview() {
-    NewBooksScreen(useCase = MockNewBooksUseCase(), navigateToDetail = {})
+    NewBooksScreen(useCase = MockNewBooksUseCase(), navigateToDetail = {}, viewModel = NewBooksViewModel(useCase = MockNewBooksUseCase()))
 }
