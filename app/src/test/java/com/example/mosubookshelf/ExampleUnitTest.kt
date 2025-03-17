@@ -1,6 +1,6 @@
 package com.example.mosubookshelf
 
-import com.example.mosubookshelf.newbooks.DefaultNewBooksRepository
+import com.example.mosubookshelf.repository.RemoteBookRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -19,11 +19,11 @@ class ExampleUnitTest {
     }
 }
 
-class NewBooksTest {
+class BooksTest {
     @Test
     fun getNewBooks(): Unit = runBlocking {
         launch {
-            val res = DefaultNewBooksRepository().getNewBooks()
+            val res = RemoteBookRepository().getNewBooks()
             assert(res.size > 0)
         }
     }
