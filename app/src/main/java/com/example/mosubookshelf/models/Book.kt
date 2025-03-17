@@ -17,6 +17,14 @@ data class BookVO(
             imageURL = "https://itbook.store/img/books/9781912047451.png",
             url = "https://itbook.store/books/9781912047451",
         )
+        val sample2 = BookVO(
+            title = "Programming iOS 11",
+            subtitle = "Dive Deep into Views, View Controllers, and Frameworks",
+            isbn13 = "9781491999226",
+            priceString = "$59.17",
+            imageURL = "https://itbook.store/img/books/9781491999226.png",
+            url = "https://itbook.store/books/9781491999226",
+        )
     }
 }
 

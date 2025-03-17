@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.sp
 import com.example.mosubookshelf.models.BookVO
 
 @Composable
-fun NewBooksScreen(modifier: Modifier = Modifier) {
-    val books: List<BookVO> = listOf(BookVO.sample1, BookVO.sample1)
+fun NewBooksScreen(modifier: Modifier = Modifier, useCase: NewBooksUseCase = NewBooksUseCase()) {
+    val books: Array<BookVO> = useCase.getNewBooks()
     NewBooksView(books, modifier)
 }
 
 @Composable
-fun NewBooksView(books: List<BookVO>, modifier: Modifier = Modifier) {
+fun NewBooksView(books: Array<BookVO>, modifier: Modifier = Modifier) {
     LazyColumn(modifier) {
         items(books) { book ->
             BookView(book)
