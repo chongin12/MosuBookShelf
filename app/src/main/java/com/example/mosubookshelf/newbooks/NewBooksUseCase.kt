@@ -2,9 +2,6 @@ package com.example.mosubookshelf.newbooks
 
 import com.example.mosubookshelf.models.*
 import com.example.mosubookshelf.repository.BookRepository
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
 
 interface NewBooksUseCase {
     suspend fun getNewBooks(): List<BookVO>
