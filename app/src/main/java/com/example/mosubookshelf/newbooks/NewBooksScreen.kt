@@ -7,7 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.*
@@ -17,13 +17,20 @@ import androidx.compose.ui.unit.sp
 import com.example.mosubookshelf.models.BookVO
 
 @Composable
-fun NewBooksScreen(modifier: Modifier = Modifier, useCase: NewBooksUseCase = NewBooksUseCase()) {
-    val books: Array<BookVO> = useCase.getNewBooks()
-    NewBooksView(books, modifier)
+fun NewBooksScreen(modifier: Modifier = Modifier, useCase: NewBooksUseCase) {
+    var books by remember { mutableStateOf<List<BookVO>?>(null) }
+    LaunchedEffect(Unit) {
+        books = useCase.getNewBooks()
+    }
+    if (books == null) {
+        Text("Loading...")
+    } else {
+        NewBooksView(books!!, modifier)
+    }
 }
 
 @Composable
-fun NewBooksView(books: Array<BookVO>, modifier: Modifier = Modifier) {
+fun NewBooksView(books: List<BookVO>, modifier: Modifier = Modifier) {
     LazyColumn(modifier) {
         items(books) { book ->
             BookView(book)
@@ -74,5 +81,5 @@ fun BookView(book: BookVO, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun NewBooksScreenPreview() {
-    NewBooksScreen()
+    NewBooksScreen(useCase = MockNewBooksUseCase())
 }

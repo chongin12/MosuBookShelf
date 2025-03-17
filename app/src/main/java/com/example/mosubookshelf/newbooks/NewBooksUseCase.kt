@@ -1,9 +1,34 @@
 package com.example.mosubookshelf.newbooks
 
-import com.example.mosubookshelf.models.BookVO
+import com.example.mosubookshelf.models.*
+import com.example.mosubookshelf.repository.BookRepository
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 
-class NewBooksUseCase {
-    fun getNewBooks(): Array<BookVO> {
-        return arrayOf(BookVO.sample1, BookVO.sample2)
+interface NewBooksUseCase {
+    suspend fun getNewBooks(): List<BookVO>
+}
+
+class DefaultNewBooksUseCase(private val repository: BookRepository): NewBooksUseCase {
+    override suspend fun getNewBooks(): List<BookVO> {
+        return repository.getNewBooks().map { it.convert() }
+    }
+
+    private fun BookDTO.convert(): BookVO {
+        return BookVO(
+            title = title ?: "",
+            subtitle = subtitle ?: "",
+            isbn13 = isbn13 ?: "",
+            priceString = price ?: "",
+            imageURL = image ?: "",
+            url = url ?: ""
+        )
+    }
+}
+
+class MockNewBooksUseCase(): NewBooksUseCase {
+    override suspend fun getNewBooks(): List<BookVO> {
+        return listOf(BookVO.sample1, BookVO.sample2)
     }
 }

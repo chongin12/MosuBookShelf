@@ -47,3 +47,9 @@ data class BookDTO(
         )
     }
 }
+
+data class NewBooksResponse(
+    val error: String?,
+    val total: String?,
+    val books: List<BookDTO>,
+)
