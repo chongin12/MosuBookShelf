@@ -6,15 +6,25 @@ import com.example.mosubookshelf.models.BookVO
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
-final class NewBooksViewModel(val useCase: NewBooksUseCase): ViewModel() {
+class NewBooksViewModel(val useCase: NewBooksUseCase): ViewModel() {
     private val _uiState = MutableStateFlow(NewBooksUiState())
     val uiState: StateFlow<NewBooksUiState> = _uiState.asStateFlow()
 
-    fun fetchNewBooks() {
+    init {
+        fetchNewBooks()
+    }
+
+    private fun fetchNewBooks() {
         viewModelScope.launch {
-            val fetchedNewBooks = useCase.getNewBooks()
+            val fetchedNewBooks = withContext(Dispatchers.IO) {
+                useCase.getNewBooks()
+            }
             println("fetched : $fetchedNewBooks")
-            _uiState.value = NewBooksUiState(fetchedNewBooks)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    books = fetchedNewBooks
+                )
+            }
         }
     }
 }
