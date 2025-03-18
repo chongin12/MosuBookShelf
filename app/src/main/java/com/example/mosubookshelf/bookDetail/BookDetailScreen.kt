@@ -1,26 +1,28 @@
 package com.example.mosubookshelf.bookDetail
 
+import android.content.ClipData
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mosubookshelf.models.BookDetailVO
-import org.w3c.dom.Text
 
 @Composable
 fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel) {
@@ -41,10 +43,11 @@ fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel) {
 @Composable
 fun BookDetailView(bookDetail: BookDetailVO) {
     Column(
+        verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         BookEssentialsView(
             imageURL =  bookDetail.imageURL,
@@ -120,7 +123,7 @@ fun BlurredBackground(modifier: Modifier = Modifier, content: @Composable BoxSco
         modifier = modifier
             .background(
                 Color.Black.copy(alpha = 0.75F),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             )
     ) {
         content()
@@ -139,6 +142,12 @@ fun BookImageBackground(
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Transparent, Color.White, Color.White, Color.White, Color.White, Color.LightGray),
+                ),
+                shape = RoundedCornerShape(8.dp),
+            )
             .blur(28.dp),
         contentScale = ContentScale.Crop,
     )
@@ -167,16 +176,50 @@ fun AuthorsYearPublisherView(
 @Composable
 fun BookAdditionalDetail(
     price: String,
-    rating: String,
+    rating: Int,
     desc: String,
     link: String,
     isbn13: String,
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("$price · $rating")
+    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        val stars: String = {
+            var ret = ""
+            for (i in 0..<rating) {
+                ret += "★"
+            }
+            for (i in rating..<5) {
+                ret += "☆"
+            }
+            ret
+        }()
+        Text(
+            text = "$price  ·  $stars",
+            fontFamily = FontFamily.Serif,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
         Text(desc)
-        Text("홈페이지에서 구매할 수 있어요! (링크)")
-        Text("isbn13 정보 (copy)")
+        Text(buildAnnotatedString {
+            append("홈페이지에서 구매할 수 있어요!")
+            withLink(
+                LinkAnnotation.Url(
+                    link,
+                    TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                )
+            ) {
+                append(" (링크) ")
+            }
+        })
+
+        val clipboardManager = LocalClipboardManager.current
+
+        Button(onClick = {
+            val clipData = ClipData.newPlainText("plain text", isbn13)
+            val clipEntry = ClipEntry(clipData)
+            clipboardManager.setClip(clipEntry)
+        }) {
+            Text("isbn13 정보 (copy)")
+        }
     }
 }
 
