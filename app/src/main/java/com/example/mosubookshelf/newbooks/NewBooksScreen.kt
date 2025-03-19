@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -29,12 +30,12 @@ import com.example.mosubookshelf.models.BookVO
 @Composable
 fun NewBooksScreen(
     modifier: Modifier = Modifier,
-    viewModel: NewBooksViewModel,
     navigateToDetail: (isbn13: String) -> Unit,
+    viewModel: NewBooksViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.books == null) {
-        Text("Loading...")
+        Text("Loading...", modifier)
     } else {
         NewBooksView(uiState.books!!, modifier, navigateToDetail)
     }

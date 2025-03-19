@@ -19,32 +19,38 @@ import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mosubookshelf.models.BookDetailVO
 
 @Composable
-fun BookDetailScreen(isbn13: String, viewModel: BookDetailViewModel) {
+fun BookDetailScreen(
+    modifier: Modifier = Modifier,
+    isbn13: String,
+    viewModel: BookDetailViewModel = hiltViewModel()
+) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val book = uiState.book
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(isbn13) {
         viewModel.fetchBookDetail(isbn13)
     }
 
     if (book != null) {
-        BookDetailView(bookDetail = book)
+        BookDetailView(bookDetail = book, modifier = modifier)
     } else {
-        Text("Loading...")
+        Text("Loading...", modifier = modifier)
     }
 }
 
 @Composable
-fun BookDetailView(bookDetail: BookDetailVO) {
+fun BookDetailView(bookDetail: BookDetailVO, modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
     ) {

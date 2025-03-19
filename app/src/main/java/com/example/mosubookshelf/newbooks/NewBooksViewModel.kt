@@ -3,10 +3,19 @@ package com.example.mosubookshelf.newbooks
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mosubookshelf.models.BookVO
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class NewBooksViewModel(val useCase: NewBooksUseCase): ViewModel() {
+data class NewBooksUiState(
+    var books: List<BookVO>? = null
+)
+
+@HiltViewModel
+class NewBooksViewModel @Inject constructor(
+    val useCase: NewBooksUseCase
+): ViewModel() {
     private val _uiState = MutableStateFlow(NewBooksUiState())
     val uiState: StateFlow<NewBooksUiState> = _uiState.asStateFlow()
 
@@ -28,7 +37,3 @@ class NewBooksViewModel(val useCase: NewBooksUseCase): ViewModel() {
         }
     }
 }
-
-data class NewBooksUiState(
-    var books: List<BookVO>? = null
-)
