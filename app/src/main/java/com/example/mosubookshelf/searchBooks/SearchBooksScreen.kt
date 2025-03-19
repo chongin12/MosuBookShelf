@@ -13,6 +13,7 @@ import com.example.mosubookshelf.newbooks.BooksView
 fun SearchBooksScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchBooksViewModel = hiltViewModel(),
+    navigateToDetail: (isbn13: String) -> Unit,
 ) {
     val queryString by viewModel.queryString.collectAsStateWithLifecycle()
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
@@ -24,7 +25,7 @@ fun SearchBooksScreen(
             }
         )
         val books = searchResult.flatMap { it.books }
-        BooksView(books) { println("detail~") }
+        BooksView(books) { navigateToDetail(it) }
     }
 
 }
