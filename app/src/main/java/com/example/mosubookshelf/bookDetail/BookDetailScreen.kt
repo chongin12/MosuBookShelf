@@ -46,8 +46,7 @@ fun BookDetailView(bookDetail: BookDetailVO) {
         verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .verticalScroll(rememberScrollState()),
     ) {
         BookEssentialsView(
             imageURL = bookDetail.imageURL,
@@ -103,7 +102,7 @@ fun BookEssentialsView(
                             Color.Black,
                         ),
                     ),
-                    shape = RoundedCornerShape(8.dp),
+                    shape = RoundedCornerShape(28.dp),
                 )
         ) {
             GlideImage(
@@ -201,7 +200,11 @@ fun BookAdditionalDetail(
     link: String,
     isbn13: String,
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+    ) {
         val stars: String = {
             var ret = ""
             for (i in 0..<rating) {
