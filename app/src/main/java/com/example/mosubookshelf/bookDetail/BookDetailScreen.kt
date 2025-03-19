@@ -50,7 +50,7 @@ fun BookDetailView(bookDetail: BookDetailVO) {
             .padding(16.dp),
     ) {
         BookEssentialsView(
-            imageURL =  bookDetail.imageURL,
+            imageURL = bookDetail.imageURL,
             title = bookDetail.title,
             authors = bookDetail.authors,
             year = bookDetail.year,
@@ -84,49 +84,60 @@ fun BookEssentialsView(
             .aspectRatio(100F / 130),
     ) {
         BookImageBackground(imageURL, Modifier.align(Alignment.Center))
-        Column(verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Column(
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Transparent,
+                            Color.Transparent,
+                            Color.Transparent,
+                            Color.LightGray,
+                            Color.DarkGray,
+                            Color.DarkGray,
+                            Color.Black,
+                        ),
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                )
+        ) {
             GlideImage(
                 model = imageURL,
                 contentDescription = "book image",
                 modifier = Modifier.weight(5F),
                 contentScale = ContentScale.FillHeight,
             )
-            BlurredBackground(modifier = Modifier.weight(1F).wrapContentSize()) {
-                Text(
-                    title,
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.Black,
-                    fontFamily = FontFamily.Serif,
-                    color = Color.White,
-                    modifier = Modifier.padding(4.dp),
-                )
-            }
-            BlurredBackground(modifier = Modifier.weight(1F).wrapContentSize()) {
-                Text(
-                    subtitle,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily.Serif,
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                    modifier = Modifier.padding(4.dp),
-                )
-            }
-            AuthorsYearPublisherView(authors, year, publisher, modifier = Modifier.weight(1F).wrapContentSize())
-        }
-    }
-}
-
-@Composable
-fun BlurredBackground(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
-    Box(
-        modifier = modifier
-            .background(
-                Color.Black.copy(alpha = 0.75F),
-                shape = RoundedCornerShape(8.dp),
+            Text(
+                title,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Black,
+                fontFamily = FontFamily.Serif,
+                color = Color.White,
+                modifier = Modifier.padding(8.dp),
             )
-    ) {
-        content()
+            Text(
+                subtitle,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                fontFamily = FontFamily.Serif,
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                modifier = Modifier.padding(4.dp),
+            )
+            AuthorsYearPublisherView(
+                authors,
+                year,
+                publisher,
+                modifier = Modifier
+                    .weight(1F)
+                    .wrapContentSize(),
+            )
+        }
     }
 }
 
@@ -142,12 +153,6 @@ fun BookImageBackground(
         modifier = modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, Color.White, Color.White, Color.White, Color.White, Color.LightGray),
-                ),
-                shape = RoundedCornerShape(8.dp),
-            )
             .blur(28.dp),
         contentScale = ContentScale.Crop,
     )
@@ -163,13 +168,28 @@ fun AuthorsYearPublisherView(
     Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
         Column {
             authors.forEach {
-                Text(it)
+                Text(
+                    it,
+                    color = Color.White,
+                )
             }
         }
-        Text(" · ")
-        Text(year)
-        Text(" · ")
-        Text(publisher)
+        Text(
+            " · ",
+            color = Color.White,
+        )
+        Text(
+            year,
+            color = Color.White,
+        )
+        Text(
+            " · ",
+            color = Color.White,
+        )
+        Text(
+            publisher,
+            color = Color.White,
+        )
     }
 }
 
