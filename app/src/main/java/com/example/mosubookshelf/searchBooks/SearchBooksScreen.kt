@@ -1,12 +1,12 @@
 package com.example.mosubookshelf.searchBooks
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.mosubookshelf.newbooks.BooksView
 
 
 @Composable
@@ -23,7 +23,8 @@ fun SearchBooksScreen(
                 viewModel.updateQueryString(value)
             }
         )
-        Text(searchResult.toString())
+        val books = searchResult.flatMap { it.books }
+        BooksView(books) { println("detail~") }
     }
 
 }

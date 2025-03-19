@@ -37,12 +37,12 @@ fun NewBooksScreen(
     if (uiState.books == null) {
         Text("Loading...", modifier)
     } else {
-        NewBooksView(uiState.books!!, modifier, navigateToDetail)
+        BooksView(uiState.books!!, modifier, navigateToDetail)
     }
 }
 
 @Composable
-fun NewBooksView(
+fun BooksView(
     books: List<BookVO>,
     modifier: Modifier = Modifier,
     navigateToDetail: (String) -> Unit
