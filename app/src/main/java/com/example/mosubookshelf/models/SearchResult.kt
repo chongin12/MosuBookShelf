@@ -9,7 +9,22 @@ data class SearchResultVO(
         val sample1 = SearchResultVO(
             total = 28,
             page = 1,
-            books = listOf(BookVO.sample1, BookVO.sample2),
+            books = listOf(BookVO.sample1, BookVO.sample2, BookVO.sample1, BookVO.sample2, BookVO.sample1),
+        )
+        val sample2 = SearchResultVO(
+            total = 28,
+            page = 2,
+            books = listOf(BookVO.sample1, BookVO.sample2, BookVO.sample1, BookVO.sample2, BookVO.sample1),
+        )
+        val sample3 = SearchResultVO(
+            total = 28,
+            page = 3,
+            books = listOf(BookVO.sample1, BookVO.sample2, BookVO.sample1, BookVO.sample2, BookVO.sample1),
+        )
+        val empty = SearchResultVO(
+            total = 28,
+            page = 4,
+            books = listOf()
         )
     }
 }

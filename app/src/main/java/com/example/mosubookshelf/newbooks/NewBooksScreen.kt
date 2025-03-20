@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.mosubookshelf.books.BooksView
 import com.example.mosubookshelf.models.BookVO
 
 @Composable
@@ -37,87 +38,15 @@ fun NewBooksScreen(
     if (uiState.books == null) {
         Text("Loading...", modifier)
     } else {
-        BooksView(uiState.books!!, modifier, navigateToDetail)
-    }
-}
-
-@Composable
-fun BooksView(
-    books: List<BookVO>,
-    modifier: Modifier = Modifier,
-    navigateToDetail: (String) -> Unit
-) {
-    LazyColumn(modifier) {
-        items(books) { book ->
-            BookView(book, Modifier.clickable {
-                navigateToDetail(book.isbn13)
-            })
-        }
-    }
-}
-
-@OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun BookView(book: BookVO, modifier: Modifier = Modifier) {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.height(IntrinsicSize.Min)
-    ) {
-        Box(
-            modifier = Modifier
-                .weight(4F)
-                .padding(8.dp)
-                .fillMaxHeight()
-                .aspectRatio((300.0 / 350.0).toFloat())
-        ) {
-            GlideImage(
-                model = book.imageURL,
-                contentDescription = "book image",
-                modifier = Modifier.align(Alignment.Center)
-                    .fillMaxHeight()
-                    .fillMaxWidth(),
-                contentScale = ContentScale.Crop,
-            )
-            Text(
-                text = book.priceString,
-                fontSize = 16.sp,
-                fontFamily = FontFamily.Serif,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Color.Black)
-                    .padding(8.dp),
-                style = TextStyle(
-                    brush = Brush.linearGradient(
-                        colors = listOf(Color.Cyan, Color.Magenta)
-                    ),
-                ),
-            )
-        }
-        Column(modifier = Modifier.weight(5F).padding(8.dp)) {
-            Text(
-                text = book.title,
-                fontSize = 20.sp,
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Bold,
-            )
-
-            Spacer(Modifier.height(4.dp))
-
-            Text(
-                text = book.subtitle,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal
-            )
-        }
-        Icon(
-            Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-            "KeyboardArrowRight Icon",
-            modifier = Modifier.weight(1F).padding(8.dp)
+        BooksView(
+            books = uiState.books!!,
+            modifier = modifier,
+            navigateToDetail = navigateToDetail,
         )
     }
 }
+
+
 
 @Preview(showBackground = true)
 @Composable

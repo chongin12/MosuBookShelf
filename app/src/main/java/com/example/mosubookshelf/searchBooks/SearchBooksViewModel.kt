@@ -18,6 +18,7 @@ class SearchBooksViewModel @Inject constructor(
     private val _searchResult = MutableStateFlow<List<SearchResultVO>>(listOf())
     val searchResult = _searchResult.asStateFlow()
 
+
     @OptIn(FlowPreview::class)
     private val debouncedSearchQuery: Flow<String> = queryString
         .debounce(1000)
@@ -47,6 +48,19 @@ class SearchBooksViewModel @Inject constructor(
                 useCase.searchBooks(query = query)
             }
             println("searched : $fetchedResult")
+            _searchResult.update { currentState ->
+                currentState + fetchedResult
+            }
+        }
+    }
+
+    fun searchNextBooks(query: String) {
+        val nextPage = searchResult.value.last().page + 1
+        viewModelScope.launch {
+            val fetchedResult = withContext(Dispatchers.IO) {
+                useCase.searchBooksWithPage(query = query, page = nextPage)
+            }
+            println("searched $nextPage page : $fetchedResult")
             _searchResult.update { currentState ->
                 currentState + fetchedResult
             }
