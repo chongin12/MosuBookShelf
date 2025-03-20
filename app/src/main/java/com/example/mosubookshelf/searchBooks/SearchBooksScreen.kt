@@ -1,9 +1,14 @@
 package com.example.mosubookshelf.searchBooks
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,6 +23,7 @@ fun SearchBooksScreen(
 ) {
     val queryString by viewModel.queryString.collectAsStateWithLifecycle()
     val searchResult by viewModel.searchResult.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     Column(modifier = modifier) {
         TextField(
             value = queryString,
@@ -27,13 +33,24 @@ fun SearchBooksScreen(
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
         val books = searchResult.flatMap { it.books }
-        BooksView(
-            books = books,
-            whenHitBottom = {
-                println("hit bottom!")
-                viewModel.searchNextBooks(queryString)
-            },
-        ) { navigateToDetail(it) }
+        Box {
+            BooksView(
+                books = books,
+                whenHitBottom = {
+                    println("hit bottom!")
+                    viewModel.searchNextBooks(queryString)
+                },
+            ) { navigateToDetail(it) }
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(16.dp)
+                        .background(Color.White, shape = CircleShape)
+                        .padding(8.dp)
+                )
+            }
+        }
     }
 
 }
