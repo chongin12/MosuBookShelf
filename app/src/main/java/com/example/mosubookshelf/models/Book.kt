@@ -38,8 +38,17 @@ data class BookDTO(
 ) {
     companion object {
         val sample1 = BookDTO(
-            title = "An Introduction to C & GUI Programming, 2nd Edition",
-            subtitle = "Architecting, Designing, and Deploying on the Snowflake Data Cloud",
+            title = "Programming iOS 11",
+            subtitle = "Dive Deep into Views, View Controllers, and Frameworks",
+            isbn13 = "9781491999226",
+            price = "\$59.17",
+            image = "https://itbook.store/img/books/9781491999226.png",
+            url = "https://itbook.store/books/9781491999226",
+        )
+
+        val sample2 = BookDTO(
+            title = "2An Introduction to C & GUI Programming, 2nd Edition",
+            subtitle = "2Architecting, Designing, and Deploying on the Snowflake Data Cloud",
             isbn13 = "9781912047451",
             price = "$12.94",
             image = "https://itbook.store/img/books/9781912047451.png",

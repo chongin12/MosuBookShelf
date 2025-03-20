@@ -18,9 +18,8 @@ class SearchBooksViewModel @Inject constructor(
     private val _searchResult = MutableStateFlow<List<SearchResultVO>>(listOf())
     val searchResult = _searchResult.asStateFlow()
 
-    private val _isLoading = MutableStateFlow<Boolean>(false)
+    private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
-
 
     @OptIn(FlowPreview::class)
     private val debouncedSearchQuery: Flow<String> = queryString
@@ -48,14 +47,18 @@ class SearchBooksViewModel @Inject constructor(
     fun searchBooks(query: String) {
         _isLoading.update { true }
         viewModelScope.launch {
-            val fetchedResult = withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 useCase.searchBooks(query = query)
+            }.onSuccess { fetchedResult ->
+                println("searched : $fetchedResult")
+                _searchResult.update { currentState ->
+                    currentState + fetchedResult
+                }
+            }.onFailure {
+                println(it)
+            }.also {
+                _isLoading.update { false }
             }
-            println("searched : $fetchedResult")
-            _searchResult.update { currentState ->
-                currentState + fetchedResult
-            }
-            _isLoading.update { false }
         }
     }
 
@@ -63,14 +66,18 @@ class SearchBooksViewModel @Inject constructor(
         _isLoading.update { true }
         val nextPage = searchResult.value.last().page + 1
         viewModelScope.launch {
-            val fetchedResult = withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 useCase.searchBooksWithPage(query = query, page = nextPage)
+            }.onSuccess { fetchedResult ->
+                println("searched $nextPage page : $fetchedResult")
+                _searchResult.update { currentState ->
+                    currentState + fetchedResult
+                }
+            }.onFailure {
+                println(it)
+            }.also {
+                _isLoading.update { false }
             }
-            println("searched $nextPage page : $fetchedResult")
-            _searchResult.update { currentState ->
-                currentState + fetchedResult
-            }
-            _isLoading.update { false }
         }
     }
 

@@ -6,8 +6,7 @@ import com.example.mosubookshelf.newbooks.DefaultNewBooksUseCase
 import com.example.mosubookshelf.newbooks.NewBooksUseCase
 import com.example.mosubookshelf.repository.BookRepository
 import com.example.mosubookshelf.repository.RemoteBookRepository
-import com.example.mosubookshelf.searchBooks.MockSearchBooksUseCase
-import com.example.mosubookshelf.searchBooks.SearchBooksUseCase
+import com.example.mosubookshelf.searchBooks.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +38,6 @@ object BookModule {
     fun provideSearchBooksUseCase(
         repository: BookRepository
     ): SearchBooksUseCase {
-        return MockSearchBooksUseCase()
+        return DefaultSearchBooksUseCase(repository = repository)
     }
 }

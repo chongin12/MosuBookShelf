@@ -34,4 +34,13 @@ data class SearchResultDTO(
     val total: String?,
     val page: String?,
     val books: List<BookDTO>,
-)
+) {
+    companion object {
+        val sample1 = SearchResultDTO(
+            error = "0",
+            total = "28",
+            page = "1",
+            books = listOf(BookDTO.sample1, BookDTO.sample2)
+        )
+    }
+}

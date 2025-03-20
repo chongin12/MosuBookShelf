@@ -1,10 +1,11 @@
 package com.example.mosubookshelf.searchBooks
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,10 +31,12 @@ fun SearchBooksScreen(
             onValueChange = { value ->
                 viewModel.updateQueryString(value)
             },
+            singleLine = true,
+            placeholder = { Text("검색어를 입력하세요")},
             modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
         val books = searchResult.flatMap { it.books }
-        Box {
+        Box(modifier = Modifier.fillMaxWidth()) {
             BooksView(
                 books = books,
                 whenHitBottom = {

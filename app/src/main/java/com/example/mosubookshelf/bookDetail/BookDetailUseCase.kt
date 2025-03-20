@@ -5,12 +5,12 @@ import com.example.mosubookshelf.models.BookDetailVO
 import com.example.mosubookshelf.repository.BookRepository
 
 interface BookDetailUseCase {
-    suspend fun getBookDetail(isbn13: String): BookDetailVO
+    suspend fun getBookDetail(isbn13: String): Result<BookDetailVO>
 }
 
 class DefaultBookDetailUseCase(private val repository: BookRepository): BookDetailUseCase {
-    override suspend fun getBookDetail(isbn13: String): BookDetailVO {
-        return repository.getBookDetail(isbn13 = isbn13).convert()
+    override suspend fun getBookDetail(isbn13: String): Result<BookDetailVO> {
+        return repository.getBookDetail(isbn13 = isbn13).map { it.convert() }
     }
 
     private fun BookDetailDTO.convert(): BookDetailVO {
@@ -34,7 +34,7 @@ class DefaultBookDetailUseCase(private val repository: BookRepository): BookDeta
 }
 
 class MockBookDetailUseCase: BookDetailUseCase {
-    override suspend fun getBookDetail(isbn13: String): BookDetailVO {
-        return BookDetailVO.sample1
+    override suspend fun getBookDetail(isbn13: String): Result<BookDetailVO> {
+        return Result.success(BookDetailVO.sample1)
     }
 }

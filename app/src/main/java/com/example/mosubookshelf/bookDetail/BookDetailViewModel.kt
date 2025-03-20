@@ -22,14 +22,17 @@ class BookDetailViewModel @Inject constructor(
 
     fun fetchBookDetail(isbn13: String) {
         viewModelScope.launch {
-            val fetchedBookDetail = withContext(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 useCase.getBookDetail(isbn13 = isbn13)
-            }
-            println("fetched : $fetchedBookDetail")
-            _uiState.update { currentState ->
-                currentState.copy(
-                    book = fetchedBookDetail
-                )
+            }.onSuccess { fetchedBookDetails ->
+                println("fetched : $fetchedBookDetails")
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        book = fetchedBookDetails
+                    )
+                }
+            }.onFailure {
+                println(it)
             }
         }
     }
