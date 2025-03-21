@@ -21,8 +21,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mosubookshelf.models.BookVO
@@ -90,8 +88,7 @@ fun BookView(book: BookVO, modifier: Modifier = Modifier) {
                 model = book.imageURL,
                 contentDescription = "book image",
                 modifier = Modifier.align(Alignment.Center)
-                    .fillMaxHeight()
-                    .fillMaxWidth(),
+                    .fillMaxSize(),
                 contentScale = ContentScale.Crop,
             )
             Text(

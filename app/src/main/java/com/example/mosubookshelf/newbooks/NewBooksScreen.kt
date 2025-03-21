@@ -10,8 +10,8 @@ import com.example.mosubookshelf.books.BooksView
 
 @Composable
 fun NewBooksScreen(
-    modifier: Modifier = Modifier,
     navigateToDetail: (isbn13: String) -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: NewBooksViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
