@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.0.21"
     id("com.google.dagger.hilt.android") version "2.51.1"
+    id("com.google.devtools.ksp") version "2.0.21-1.0.27"
     id("kotlin-kapt")
 }
 
@@ -59,6 +60,7 @@ dependencies {
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.core.ktx)
 
     val nav_version = "2.8.9"
 
@@ -69,6 +71,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

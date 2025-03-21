@@ -5,7 +5,17 @@ import com.example.mosubookshelf.repository.BookRepository
 
 class HybridBookRepository(vararg val repositories: BookRepository): BookRepository {
     override suspend fun getNewBooks(): Result<List<BookDTO>> {
-        TODO("Not yet implemented")
+        var errorMessage = ""
+        repositories.forEach { repository ->
+            repository.getNewBooks()
+                .onSuccess {
+                    return Result.success(it)
+                }
+                .onFailure {
+                    errorMessage += it.message ?: "$repository 에서 실패"
+                }
+        }
+        return Result.failure(Exception(errorMessage))
     }
 
     override suspend fun getBookDetail(isbn13: String): Result<BookDetailDTO> {
@@ -19,5 +29,4 @@ class HybridBookRepository(vararg val repositories: BookRepository): BookReposit
     override suspend fun searchBooks(query: String, page: Int): Result<SearchResultDTO> {
         TODO("Not yet implemented")
     }
-
 }
