@@ -1,6 +1,6 @@
 package com.example.mosubookshelf
 
-import com.example.mosubookshelf.repository.RemoteBookRepository
+import com.example.mosubookshelf.repository.remote.RemoteBookRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

@@ -7,7 +7,7 @@ import com.example.mosubookshelf.useCase.DefaultBookDetailUseCase
 import com.example.mosubookshelf.useCase.DefaultNewBooksUseCase
 import com.example.mosubookshelf.useCase.NewBooksUseCase
 import com.example.mosubookshelf.repository.BookRepository
-import com.example.mosubookshelf.repository.RemoteBookRepository
+import com.example.mosubookshelf.repository.remote.RemoteBookRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
