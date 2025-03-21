@@ -1,6 +1,7 @@
 package com.example.mosubookshelf.newbooks
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,7 +17,7 @@ fun NewBooksScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     if (uiState.books == null) {
-        Text("Loading...", modifier)
+        LinearProgressIndicator(modifier = modifier.fillMaxWidth())
     } else {
         BooksView(
             books = uiState.books!!,

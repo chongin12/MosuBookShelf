@@ -4,8 +4,7 @@ import android.content.ClipData
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mosubookshelf.models.BookDetailVO
@@ -42,7 +40,7 @@ fun BookDetailScreen(
     if (book != null) {
         BookDetailView(bookDetail = book, modifier = modifier)
     } else {
-        Text("Loading...", modifier = modifier)
+        LinearProgressIndicator(modifier = modifier.fillMaxWidth())
     }
 }
 
