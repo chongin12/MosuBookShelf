@@ -1,4 +1,4 @@
-package com.example.mosubookshelf.bookDetail
+package com.example.mosubookshelf.view
 
 import android.content.ClipData
 import androidx.compose.foundation.*
@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.mosubookshelf.viewModel.BookDetailViewModel
 import com.example.mosubookshelf.models.BookDetailVO
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.mosubookshelf.books
+package com.example.mosubookshelf.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

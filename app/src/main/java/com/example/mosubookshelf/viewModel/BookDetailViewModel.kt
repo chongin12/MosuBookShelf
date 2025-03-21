@@ -1,7 +1,8 @@
-package com.example.mosubookshelf.bookDetail
+package com.example.mosubookshelf.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.mosubookshelf.useCase.BookDetailUseCase
 import com.example.mosubookshelf.models.BookDetailVO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*

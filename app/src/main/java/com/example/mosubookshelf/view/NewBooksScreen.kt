@@ -1,4 +1,4 @@
-package com.example.mosubookshelf.newbooks
+package com.example.mosubookshelf.view
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.LinearProgressIndicator
@@ -7,7 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.mosubookshelf.books.BooksView
+import com.example.mosubookshelf.useCase.MockNewBooksUseCase
+import com.example.mosubookshelf.viewModel.NewBooksViewModel
 
 @Composable
 fun NewBooksScreen(

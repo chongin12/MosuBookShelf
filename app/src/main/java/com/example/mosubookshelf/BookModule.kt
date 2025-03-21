@@ -1,12 +1,13 @@
 package com.example.mosubookshelf
 
-import com.example.mosubookshelf.bookDetail.BookDetailUseCase
-import com.example.mosubookshelf.bookDetail.DefaultBookDetailUseCase
-import com.example.mosubookshelf.newbooks.DefaultNewBooksUseCase
-import com.example.mosubookshelf.newbooks.NewBooksUseCase
+import com.example.mosubookshelf.useCase.DefaultSearchBooksUseCase
+import com.example.mosubookshelf.useCase.SearchBooksUseCase
+import com.example.mosubookshelf.useCase.BookDetailUseCase
+import com.example.mosubookshelf.useCase.DefaultBookDetailUseCase
+import com.example.mosubookshelf.useCase.DefaultNewBooksUseCase
+import com.example.mosubookshelf.useCase.NewBooksUseCase
 import com.example.mosubookshelf.repository.BookRepository
 import com.example.mosubookshelf.repository.RemoteBookRepository
-import com.example.mosubookshelf.searchBooks.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

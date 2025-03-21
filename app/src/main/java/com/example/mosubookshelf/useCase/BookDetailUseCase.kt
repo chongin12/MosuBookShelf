@@ -1,4 +1,4 @@
-package com.example.mosubookshelf.bookDetail
+package com.example.mosubookshelf.useCase
 
 import com.example.mosubookshelf.models.BookDetailDTO
 import com.example.mosubookshelf.models.BookDetailVO

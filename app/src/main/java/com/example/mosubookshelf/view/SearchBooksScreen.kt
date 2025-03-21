@@ -1,7 +1,5 @@
-package com.example.mosubookshelf.searchBooks
+package com.example.mosubookshelf.view
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -13,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.mosubookshelf.books.BooksView
+import com.example.mosubookshelf.viewModel.SearchBooksViewModel
 
 
 @Composable

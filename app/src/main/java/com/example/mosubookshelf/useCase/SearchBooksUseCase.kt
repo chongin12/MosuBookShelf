@@ -1,8 +1,7 @@
-package com.example.mosubookshelf.searchBooks
+package com.example.mosubookshelf.useCase
 
 import com.example.mosubookshelf.models.SearchResultDTO
 import com.example.mosubookshelf.models.SearchResultVO
-import com.example.mosubookshelf.newbooks.convert
 import com.example.mosubookshelf.repository.BookRepository
 
 interface SearchBooksUseCase {

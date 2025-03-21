@@ -1,4 +1,4 @@
-package com.example.mosubookshelf.newbooks
+package com.example.mosubookshelf.useCase
 
 import com.example.mosubookshelf.models.*
 import com.example.mosubookshelf.repository.BookRepository
