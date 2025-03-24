@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.mosubookshelf.models.BookVO
+import com.example.mosubookshelf.utility.safeClickable
 import kotlinx.coroutines.flow.*
 
 @Composable
@@ -60,7 +61,7 @@ fun BooksView(
         state = listState,
     ) {
         items(books) { book ->
-            BookView(book, Modifier.clickable {
+            BookView(book, Modifier.safeClickable {
                 navigateToDetail(book.isbn13)
             })
         }
