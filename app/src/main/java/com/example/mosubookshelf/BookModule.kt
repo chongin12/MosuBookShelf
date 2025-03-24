@@ -46,8 +46,12 @@ object BookModule {
 
     @Provides
     fun provideSearchBooksUseCase(
-        repository: BookRepository
+        repository: BookRepository,
+        cache: BookCacheRepository,
     ): SearchBooksUseCase {
-        return DefaultSearchBooksUseCase(repository = repository)
+        return DefaultSearchBooksUseCase(
+            repository = repository,
+            cacheRepository = cache,
+        )
     }
 }
