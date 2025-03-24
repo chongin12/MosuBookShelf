@@ -15,17 +15,6 @@ class DefaultNewBooksUseCase(private val repository: BookRepository): NewBooksUs
     }
 }
 
-fun BookDTO.convert(): BookVO {
-    return BookVO(
-        title = title ?: "",
-        subtitle = subtitle ?: "",
-        isbn13 = isbn13 ?: "",
-        priceString = price ?: "",
-        imageURL = image ?: "",
-        url = url ?: ""
-    )
-}
-
 class MockNewBooksUseCase(): NewBooksUseCase {
     override suspend fun getNewBooks(): Result<List<BookVO>> {
         return Result.success(listOf(BookVO.sample1, BookVO.sample2))

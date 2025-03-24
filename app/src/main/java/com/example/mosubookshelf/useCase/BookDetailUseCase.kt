@@ -20,25 +20,6 @@ class DefaultBookDetailUseCase(private val repository: BookRepository, private v
 
         return result.map { it.convert() }
     }
-
-    private fun BookDetailDTO.convert(): BookDetailVO {
-        val splittedAuthors = this.authors?.split(',')?.map { it.trim() }
-        return BookDetailVO(
-            title = this.title ?: "",
-            subtitle = this.subtitle ?: "",
-            authors = splittedAuthors ?: listOf(),
-            publisher = this.publisher ?: "",
-            language = this.language ?: "English",
-            isbn13 = this.isbn13 ?: "",
-            pages = this.pages ?: "",
-            year = this.year ?: "",
-            rating = this.rating?.toInt() ?: 0,
-            desc = this.desc ?: "",
-            price = this.price ?: "",
-            imageURL = this.image ?: "",
-            link = this.url ?: ""
-        )
-    }
 }
 
 class MockBookDetailUseCase: BookDetailUseCase {

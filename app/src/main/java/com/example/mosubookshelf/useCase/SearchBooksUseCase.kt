@@ -37,13 +37,6 @@ class DefaultSearchBooksUseCase(
     }
 }
 
-private fun SearchResultDTO.convert(): SearchResultVO {
-    return SearchResultVO(
-        total = this.total?.toInt() ?: 0,
-        page = this.page?.toInt() ?: 0,
-        books = this.books.map { it.convert() },
-    )
-}
 
 class MockSearchBooksUseCase: SearchBooksUseCase {
     override suspend fun searchBooks(query: String): Result<SearchResultVO> {

@@ -4,7 +4,6 @@ import android.content.Context
 import com.example.mosubookshelf.models.*
 import com.example.mosubookshelf.repository.BookCacheRepository
 import com.example.mosubookshelf.repository.local.db.BookDatabase
-import com.example.mosubookshelf.repository.local.db.entities.*
 
 class LocalBookRepository(context: Context): BookCacheRepository {
 
@@ -58,64 +57,9 @@ class LocalBookRepository(context: Context): BookCacheRepository {
         db.bookDao().insert(bookDetailDTO.convertToEntity())
     }
 
-    private fun BookDetailEntity.convertToDTO(): BookDetailDTO {
-        return BookDetailDTO(
-            error = "0",
-            title = title,
-            subtitle = subtitle,
-            authors = authors,
-            publisher = publisher,
-            language = language,
-            isbn10 = isbn10,
-            isbn13 = isbn13,
-            pages = pages,
-            year = year,
-            rating = rating,
-            desc = desc,
-            price = price,
-            image = image,
-            url = url
-        )
-    }
 
-    private fun BookEntity.convert(): BookDTO {
-        return BookDTO(
-            title = title,
-            subtitle = subtitle,
-            isbn13 = isbn13,
-            price = price,
-            image = image,
-            url = url,
-        )
-    }
 
-    private fun BookDTO.convertToEntity(): BookEntity {
-        return BookEntity(
-            isbn13 = isbn13 ?: "",
-            title = title,
-            subtitle = subtitle,
-            price = price,
-            image = image,
-            url = url
-        )
-    }
 
-    private fun BookDetailDTO.convertToEntity(): BookDetailEntity {
-        return BookDetailEntity(
-            title = title,
-            subtitle = subtitle,
-            authors = authors,
-            publisher = publisher,
-            language = language,
-            isbn10 = isbn10,
-            isbn13 = isbn13 ?: "",
-            pages = pages,
-            year = year,
-            rating = rating,
-            desc = desc,
-            price = price,
-            image = image,
-            url = url
-        )
-    }
+
+
 }
