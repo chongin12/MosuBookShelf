@@ -5,6 +5,7 @@ import com.example.mosubookshelf.models.*
 import com.example.mosubookshelf.repository.*
 import com.example.mosubookshelf.repository.convertToDTO
 import com.example.mosubookshelf.repository.local.db.BookDatabase
+import com.example.mosubookshelf.repository.local.db.entities.BookMemoEntity
 
 class LocalBookRepository(context: Context): BookCacheRepository {
 
@@ -41,11 +42,11 @@ class LocalBookRepository(context: Context): BookCacheRepository {
         }
     }
 
-    override fun cacheBook(book: BookDetailDTO) {
+    override suspend fun cacheBook(book: BookDetailDTO) {
         insertBook(bookDetailDTO = book)
     }
 
-    override fun cacheSearchResult(keyword: String, searchResult: SearchResultDTO) {
+    override suspend fun cacheSearchResult(keyword: String, searchResult: SearchResultDTO) {
         db.bookDao().saveSearchResults(
             keyword = keyword,
             total = searchResult.total,
@@ -54,7 +55,19 @@ class LocalBookRepository(context: Context): BookCacheRepository {
         )
     }
 
-    fun insertBook(bookDetailDTO: BookDetailDTO) {
+    override suspend fun getBookMemo(isbn13: String): Result<String> {
+        return runCatching { db.bookDao().getBookMemo(isbn13).memo }
+    }
+
+    override suspend fun insertBookMemo(isbn13: String, memo: String) {
+        db.bookDao().insertBookMemo(BookMemoEntity(isbn13 = isbn13, memo = memo))
+    }
+
+    override suspend fun updateBookMemo(isbn13: String, memo: String) {
+        db.bookDao().updateBookMemo(BookMemoEntity(isbn13 = isbn13, memo = memo))
+    }
+
+    suspend fun insertBook(bookDetailDTO: BookDetailDTO) {
         db.bookDao().insert(bookDetailDTO.convertToEntity())
     }
 

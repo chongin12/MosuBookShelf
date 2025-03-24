@@ -21,20 +21,51 @@ class BookDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(BookDetailUiState())
     val uiState: StateFlow<BookDetailUiState> = _uiState.asStateFlow()
 
+    private val _memoState = MutableStateFlow("")
+    val memoState: StateFlow<String> = _memoState.asStateFlow()
+
+    private fun bindMemoState() = viewModelScope.launch {
+        memoState
+            .drop(1)
+            .debounce(1000)
+            .combine(uiState) { memo, ui -> memo to ui }
+            .collect { (memo, ui) ->
+                ui.book?.isbn13?.let { isbn13 ->
+                    useCase.updateBookMemo(isbn13 = isbn13, memo = memo)
+                }
+            }
+
+    }
+
     fun fetchBookDetail(isbn13: String) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                useCase.getBookDetail(isbn13 = isbn13)
-            }.onSuccess { fetchedBookDetails ->
-                println("fetched : $fetchedBookDetails")
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        book = fetchedBookDetails
-                    )
+            useCase.getBookDetail(isbn13 = isbn13)
+                .onSuccess { fetchedBookDetails ->
+                    println("fetched : $fetchedBookDetails")
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            book = fetchedBookDetails
+                        )
+                    }
+                }.onFailure {
+                    println(it)
                 }
-            }.onFailure {
-                println(it)
-            }
+        }
+    }
+
+    fun fetchBookMemo(isbn13: String) {
+        viewModelScope.launch {
+            useCase.getBookMemo(isbn13)
+                .onSuccess { memo ->
+                    _memoState.update { memo }
+                    bindMemoState()
+                }
+        }
+    }
+
+    fun updateBookMemo(memo: String) {
+        viewModelScope.launch {
+            _memoState.emit(memo)
         }
     }
 }

@@ -8,31 +8,31 @@ import com.example.mosubookshelf.repository.local.db.entities.*
 interface BookDao {
     // Book
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBooks(books: List<BookEntity>)
+    suspend fun insertBooks(books: List<BookEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSearchResult(searchResult: SearchResultEntity)
+    suspend fun insertSearchResult(searchResult: SearchResultEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSearchBookCrossRefs(crossRefs: List<SearchBookCrossRef>)
+    suspend fun insertSearchBookCrossRefs(crossRefs: List<SearchBookCrossRef>)
 
     // Book Detail
     @Insert
-    fun insert(bookDetail: BookDetailEntity)
+    suspend fun insert(bookDetail: BookDetailEntity)
 
     @Update
-    fun update(bookDetail: BookDetailEntity)
+    suspend fun update(bookDetail: BookDetailEntity)
 
     @Delete
-    fun delete(bookDetail: BookDetailEntity)
+    suspend fun delete(bookDetail: BookDetailEntity)
 
     @Query("SELECT * FROM book_details WHERE isbn13 = :isbn13")
-    fun getBookDetail(isbn13: String): BookDetailEntity
+    suspend fun getBookDetail(isbn13: String): BookDetailEntity
 
     // Search Result
     @Transaction
     @Query("SELECT * FROM search_results WHERE keyword = :keyword and page = :page")
-    fun getSearchResult(keyword: String, page: String): SearchResultEntity?
+    suspend fun getSearchResult(keyword: String, page: String): SearchResultEntity?
 
     @Query("""
         SELECT b.* FROM books b
@@ -40,11 +40,11 @@ interface BookDao {
         WHERE ref.keyword = :keyword AND ref.page = :page
         ORDER BY ref.bookIndex
     """)
-    fun searchBooks(keyword: String, page: String): List<BookEntity>
+    suspend fun searchBooks(keyword: String, page: String): List<BookEntity>
 
 
     @Transaction
-    fun saveSearchResults(keyword: String, total: String?, page: String, books: List<BookEntity>) {
+    suspend fun saveSearchResults(keyword: String, total: String?, page: String, books: List<BookEntity>) {
         val searchResult = SearchResultEntity(keyword = keyword, page = page, total = total)
         insertSearchResult(searchResult)
         insertBooks(books)
@@ -54,4 +54,14 @@ interface BookDao {
         }
         insertSearchBookCrossRefs(crossRefs = crossRefs)
     }
+
+    // Book Memo
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBookMemo(memo: BookMemoEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateBookMemo(memo: BookMemoEntity)
+
+    @Query("SELECT * FROM book_memos WHERE isbn13 = :isbn13")
+    suspend fun getBookMemo(isbn13: String): BookMemoEntity
 }

@@ -10,6 +10,7 @@ import com.example.mosubookshelf.repository.local.db.entities.*
         BookEntity::class,
         SearchResultEntity::class,
         SearchBookCrossRef::class,
+        BookMemoEntity::class,
     ],
     version = 1,
 )

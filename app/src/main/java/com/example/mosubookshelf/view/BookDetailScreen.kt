@@ -32,21 +32,30 @@ fun BookDetailScreen(
     viewModel: BookDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val memoState by viewModel.memoState.collectAsStateWithLifecycle()
     val book = uiState.book
 
     LaunchedEffect(isbn13) {
         viewModel.fetchBookDetail(isbn13)
+        viewModel.fetchBookMemo(isbn13)
     }
 
     if (book != null) {
-        BookDetailView(bookDetail = book, modifier = modifier)
+        BookDetailView(
+            bookDetail = book,
+            bookMemo = memoState,
+            modifier = modifier,
+            onMemoChange = { memo ->
+                viewModel.updateBookMemo(memo = memo)
+            },
+        )
     } else {
         LinearProgressIndicator(modifier = modifier.fillMaxWidth())
     }
 }
 
 @Composable
-fun BookDetailView(bookDetail: BookDetailVO, modifier: Modifier = Modifier) {
+fun BookDetailView(bookDetail: BookDetailVO, bookMemo: String, modifier: Modifier = Modifier, onMemoChange: (String) -> Unit) {
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp),
         modifier = modifier
@@ -67,6 +76,11 @@ fun BookDetailView(bookDetail: BookDetailVO, modifier: Modifier = Modifier) {
             desc = bookDetail.desc,
             link = bookDetail.link,
             isbn13 = bookDetail.isbn13,
+        )
+        BookMemoView(
+            memo = bookMemo,
+            onMemoChange = onMemoChange,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -251,8 +265,26 @@ fun BookAdditionalDetail(
     }
 }
 
+@Composable
+fun BookMemoView(memo: String, modifier: Modifier = Modifier, onMemoChange: (String) -> Unit) {
+    var text by remember { mutableStateOf(memo) }
+    TextField(
+        text,
+        onValueChange = { value ->
+            text = value
+            onMemoChange(value)
+        },
+        modifier
+    )
+}
+
 @Preview
 @Composable
 fun BookDetailPreview() {
-    BookDetailView(BookDetailVO.sample1)
+    BookDetailView(
+        BookDetailVO.sample1,
+        bookMemo = TODO(),
+        modifier = TODO(),
+        onMemoChange = TODO()
+    )
 }
