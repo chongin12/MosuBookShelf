@@ -277,14 +277,3 @@ fun BookMemoView(memo: String, modifier: Modifier = Modifier, onMemoChange: (Str
         modifier
     )
 }
-
-@Preview
-@Composable
-fun BookDetailPreview() {
-    BookDetailView(
-        BookDetailVO.sample1,
-        bookMemo = TODO(),
-        modifier = TODO(),
-        onMemoChange = TODO()
-    )
-}

@@ -1,6 +1,5 @@
 package com.example.mosubookshelf.useCase
 
-import com.example.mosubookshelf.models.BookDetailDTO
 import com.example.mosubookshelf.models.BookDetailVO
 import com.example.mosubookshelf.repository.*
 
@@ -30,7 +29,7 @@ class DefaultBookDetailUseCase(private val repository: BookRepository, private v
 
     override suspend fun updateBookMemo(isbn13: String, memo: String) {
         println("update book memo : $memo")
-        var result = cache.getBookMemo(isbn13 = isbn13)
+        val result = cache.getBookMemo(isbn13 = isbn13)
         if (result.isFailure) {
             cache.insertBookMemo(isbn13 = isbn13, memo = memo)
         } else {
