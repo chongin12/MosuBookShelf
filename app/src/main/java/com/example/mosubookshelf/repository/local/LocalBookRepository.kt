@@ -3,8 +3,7 @@ package com.example.mosubookshelf.repository.local
 import android.content.Context
 import androidx.room.*
 import com.example.mosubookshelf.models.*
-import com.example.mosubookshelf.repository.BookRepository
-import com.example.mosubookshelf.useCase.convert
+import com.example.mosubookshelf.repository.BookCacheRepository
 
 @Entity
 data class BookEntity(
@@ -62,12 +61,12 @@ abstract class BookDatabase: RoomDatabase() {
     }
 }
 
-class LocalBookRepository(context: Context): BookRepository {
+class LocalBookRepository(context: Context): BookCacheRepository {
 
-    val db = BookDatabase.getInstance(context)
+    private val db = BookDatabase.getInstance(context)
 
     override suspend fun getNewBooks(): Result<List<BookDTO>> {
-        TODO("Not yet implemented")
+        return Result.failure(Exception("getNewBooks는 로컬 DB 사용하지 않음."))
     }
 
     override suspend fun getBookDetail(isbn13: String): Result<BookDetailDTO> {
@@ -75,11 +74,15 @@ class LocalBookRepository(context: Context): BookRepository {
     }
 
     override suspend fun searchBooks(query: String): Result<SearchResultDTO> {
-        TODO("Not yet implemented")
+        return Result.failure(Exception("searchBooks는 로컬 DB 사용하지 않음."))
     }
 
     override suspend fun searchBooks(query: String, page: Int): Result<SearchResultDTO> {
-        TODO("Not yet implemented")
+        return Result.failure(Exception("searchBooks는 로컬 DB 사용하지 않음."))
+    }
+
+    override fun cacheBook(book: BookDetailDTO) {
+        insertBook(bookDetailDTO = book)
     }
 
     fun insertBook(bookDetailDTO: BookDetailDTO) {
