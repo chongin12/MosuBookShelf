@@ -1,4 +1,4 @@
-package com.example.mosubookshelf.repository.local
+package com.example.mosubookshelf.repository
 
 import com.example.mosubookshelf.models.BookDTO
 import com.example.mosubookshelf.models.BookDetailDTO

@@ -2,7 +2,8 @@ package com.example.mosubookshelf.repository.local
 
 import android.content.Context
 import com.example.mosubookshelf.models.*
-import com.example.mosubookshelf.repository.BookCacheRepository
+import com.example.mosubookshelf.repository.*
+import com.example.mosubookshelf.repository.convertToDTO
 import com.example.mosubookshelf.repository.local.db.BookDatabase
 
 class LocalBookRepository(context: Context): BookCacheRepository {

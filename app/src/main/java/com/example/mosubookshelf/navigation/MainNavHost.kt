@@ -1,0 +1,43 @@
+package com.example.mosubookshelf.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import com.example.mosubookshelf.view.*
+
+@Composable
+fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier, viewModelStoreOwner: ViewModelStoreOwner) {
+    NavHost(navController, startDestination = TopLevelRouteType.NAV_NEW_BOOKS.routeID, modifier) {
+        composable(
+            route = TopLevelRouteType.NAV_NEW_BOOKS.routeID,
+        ) {
+            NewBooksScreen(
+                navigateToDetail = { isbn13 ->
+                    navController.navigate(RouteType.BOOK_DETAIL.valuedPath(isbn13))
+                },
+                viewModel = hiltViewModel(viewModelStoreOwner),
+            )
+        }
+        composable(
+            route = TopLevelRouteType.NAV_SEARCH_BOOKS.routeID
+        ) {
+            SearchBooksScreen(
+                navigateToDetail = { isbn13 ->
+                    navController.navigate(RouteType.BOOK_DETAIL.valuedPath(isbn13))
+                },
+                viewModel = hiltViewModel(viewModelStoreOwner),
+            )
+        }
+        composable(
+            route = RouteType.BOOK_DETAIL.path
+        ) { backStackEntry ->
+            val arg = RouteType.BOOK_DETAIL.args.first()
+            val isbn13 = backStackEntry.arguments?.getString(arg) ?: return@composable
+            BookDetailScreen(isbn13 = isbn13)
+        }
+    }
+}
