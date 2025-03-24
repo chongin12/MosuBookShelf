@@ -58,6 +58,8 @@ class BookDetailViewModel @Inject constructor(
             useCase.getBookMemo(isbn13)
                 .onSuccess { memo ->
                     _memoState.update { memo }
+                }
+                .also {
                     bindMemoState()
                 }
         }
