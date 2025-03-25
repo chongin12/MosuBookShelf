@@ -16,7 +16,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,17 +27,11 @@ import com.example.mosubookshelf.models.BookDetailVO
 @Composable
 fun BookDetailScreen(
     modifier: Modifier = Modifier,
-    isbn13: String,
     viewModel: BookDetailViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val bookDetailState by viewModel.bookDetailState.collectAsStateWithLifecycle()
     val memoState by viewModel.memoState.collectAsStateWithLifecycle()
-    val book = uiState.book
-
-    LaunchedEffect(isbn13) {
-        viewModel.fetchBookDetail(isbn13)
-        viewModel.fetchBookMemo(isbn13)
-    }
+    val book = bookDetailState
 
     if (book != null) {
         BookDetailView(
@@ -107,7 +100,6 @@ fun BookEssentialsView(
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(

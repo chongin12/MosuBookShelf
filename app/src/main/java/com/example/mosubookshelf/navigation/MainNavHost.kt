@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
-import androidx.navigation.NavHostController
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.mosubookshelf.view.*
@@ -33,11 +33,12 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier,
             )
         }
         composable(
-            route = RouteType.BOOK_DETAIL.path
-        ) { backStackEntry ->
-            val arg = RouteType.BOOK_DETAIL.args.first()
-            val isbn13 = backStackEntry.arguments?.getString(arg) ?: return@composable
-            BookDetailScreen(isbn13 = isbn13)
+            route = RouteType.BOOK_DETAIL.path,
+            arguments = listOf(
+                navArgument("isbn13") { type = NavType.StringType }
+            )
+        ) {
+            BookDetailScreen()
         }
     }
 }

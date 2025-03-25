@@ -1,7 +1,6 @@
 package com.example.mosubookshelf.viewModel
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.mosubookshelf.useCase.BookDetailUseCase
 import com.example.mosubookshelf.models.BookDetailVO
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,52 +15,63 @@ data class BookDetailUiState(
 
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(
-    private val useCase: BookDetailUseCase
+    private val useCase: BookDetailUseCase,
+    savedStateHandle: SavedStateHandle,
 ): ViewModel() {
-    private val _uiState = MutableStateFlow(BookDetailUiState())
-    val uiState: StateFlow<BookDetailUiState> = _uiState.asStateFlow()
+    private val isbn13LiveData: LiveData<String> = savedStateHandle.getLiveData("isbn13")
+    private val isbn13: String?
+        get() {
+            return isbn13LiveData.value
+        }
+
+    private val _bookDetailState = MutableStateFlow<BookDetailVO?>(null)
+    val bookDetailState: StateFlow<BookDetailVO?> = _bookDetailState.asStateFlow()
 
     private val _memoState = MutableStateFlow("")
     val memoState: StateFlow<String> = _memoState.asStateFlow()
 
+    init {
+        println("viewmodel init, isbn13 = $isbn13")
+        bindMemoState()
+        fetchBookDetail()
+        fetchBookMemo()
+    }
+
     private fun bindMemoState() = viewModelScope.launch {
         memoState
-            .drop(1)
             .debounce(1000)
-            .combine(uiState) { memo, ui -> memo to ui }
-            .collect { (memo, ui) ->
-                ui.book?.isbn13?.let { isbn13 ->
+            .drop(1) // 처음 한 번은 초기값이 들어옵니다.
+            .combine(bookDetailState) { memo, bookDetail -> memo to bookDetail }
+            .collect { (memo, bookDetail) ->
+                bookDetail?.isbn13?.let { isbn13 ->
                     useCase.updateBookMemo(isbn13 = isbn13, memo = memo)
                 }
             }
 
     }
 
-    fun fetchBookDetail(isbn13: String) {
-        viewModelScope.launch {
-            useCase.getBookDetail(isbn13 = isbn13)
-                .onSuccess { fetchedBookDetails ->
-                    println("fetched : $fetchedBookDetails")
-                    _uiState.update { currentState ->
-                        currentState.copy(
-                            book = fetchedBookDetails
-                        )
+    private fun fetchBookDetail() {
+        isbn13?.let {
+            viewModelScope.launch {
+                useCase.getBookDetail(isbn13 = it)
+                    .onSuccess { fetchedBookDetails ->
+                        println("fetched : $fetchedBookDetails")
+                        _bookDetailState.update { fetchedBookDetails }
+                    }.onFailure {
+                        println(it)
                     }
-                }.onFailure {
-                    println(it)
-                }
+            }
         }
     }
 
-    fun fetchBookMemo(isbn13: String) {
-        viewModelScope.launch {
-            useCase.getBookMemo(isbn13)
-                .onSuccess { memo ->
-                    _memoState.update { memo }
-                }
-                .also {
-                    bindMemoState()
-                }
+    private fun fetchBookMemo() {
+        isbn13?.let {
+            viewModelScope.launch {
+                useCase.getBookMemo(it)
+                    .onSuccess { memo ->
+                        _memoState.update { memo }
+                    }
+            }
         }
     }
 
