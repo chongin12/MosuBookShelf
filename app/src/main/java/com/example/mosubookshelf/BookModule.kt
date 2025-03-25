@@ -9,7 +9,7 @@ import com.example.mosubookshelf.useCase.bookDetail.DefaultBookDetailUseCase
 import com.example.mosubookshelf.useCase.newBooks.DefaultNewBooksUseCase
 import com.example.mosubookshelf.useCase.newBooks.NewBooksUseCase
 import com.example.mosubookshelf.repository.BookRepository
-import com.example.mosubookshelf.repository.local.LocalBookRepository
+import com.example.mosubookshelf.repository.local.LocalBookCacheRepository
 import com.example.mosubookshelf.repository.remote.RemoteBookRepository
 import dagger.Module
 import dagger.Provides
@@ -26,7 +26,7 @@ object BookModule {
     @Provides
     fun provideBookCacheRepository(
         @ApplicationContext context: Context,
-    ): BookCacheRepository = LocalBookRepository(context)
+    ): BookCacheRepository = LocalBookCacheRepository(context)
 
     @Provides
     fun provideBookDetailUseCase(

@@ -7,7 +7,7 @@ import com.example.mosubookshelf.repository.convertToDTO
 import com.example.mosubookshelf.repository.local.db.BookDatabase
 import com.example.mosubookshelf.repository.local.db.entities.BookMemoEntity
 
-class LocalBookRepository(context: Context): BookCacheRepository {
+class LocalBookCacheRepository(context: Context): BookCacheRepository {
 
     private val db = BookDatabase.getInstance(context)
 

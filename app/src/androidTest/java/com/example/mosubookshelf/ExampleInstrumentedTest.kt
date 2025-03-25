@@ -1,12 +1,9 @@
 package com.example.mosubookshelf
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.mosubookshelf.models.BookDetailDTO
-import com.example.mosubookshelf.repository.local.LocalBookRepository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import com.example.mosubookshelf.repository.local.LocalBookCacheRepository
 import kotlinx.coroutines.test.runTest
 
 import org.junit.Test
@@ -30,13 +27,13 @@ class ExampleInstrumentedTest {
     }
 }
 
-class LocalBookRepositoryTest {
-    val localBookRepository = LocalBookRepository(InstrumentationRegistry.getInstrumentation().targetContext)
+class LocalBookCacheRepositoryTest {
+    val localBookCacheRepository = LocalBookCacheRepository(InstrumentationRegistry.getInstrumentation().targetContext)
 
     @Before
     fun insertDBData() {
         val sample = BookDetailDTO.sample1
-        localBookRepository.insertBook(sample)
+        localBookCacheRepository.insertBook(sample)
     }
 
     @Test
@@ -44,7 +41,7 @@ class LocalBookRepositoryTest {
         val sample1_isbn = BookDetailDTO.sample1.isbn13!!
 
         runTest {
-            val bookDetail = localBookRepository.getBookDetail(isbn13 = sample1_isbn)
+            val bookDetail = localBookCacheRepository.getBookDetail(isbn13 = sample1_isbn)
             println("bookDetail : $bookDetail")
             assert(bookDetail.isSuccess)
             bookDetail.onSuccess {
