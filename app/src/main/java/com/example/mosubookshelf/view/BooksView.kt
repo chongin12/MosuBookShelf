@@ -2,6 +2,7 @@ package com.example.mosubookshelf.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,10 +32,13 @@ import kotlinx.coroutines.flow.*
 fun BooksView(
     books: List<BookVO>,
     modifier: Modifier = Modifier,
-    whenHitBottom: (() -> Unit)? = null,
-    navigateToDetail: (String) -> Unit,
+    whenHitBottom: (() -> Unit)? = null, // 스크롤을 내려서 맨 아래에 닿았을 때 실행됩니다.
+    navigateToDetail: (isbn13: String) -> Unit, // 디테일 화면으로 넘어가고 싶을 때 실행합니다.
 ) {
     val listState = rememberLazyListState()
+    LaunchedEffect(books) {
+        listState.scrollBy(0F) // 표현해야 하는 books가 바뀌면 스크롤을 가장 위로 올립니다.
+    }
     if (whenHitBottom != null) {
         LaunchedEffect(listState) {
             snapshotFlow {
@@ -61,7 +65,7 @@ fun BooksView(
         state = listState,
     ) {
         items(books) { book ->
-            BookView(book, Modifier.safeClickable {
+            BookView(book, Modifier.safeClickable { // 광클 방지 clickable
                 navigateToDetail(book.isbn13)
             })
         }

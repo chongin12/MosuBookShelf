@@ -24,13 +24,8 @@ class DefaultBookDetailUseCase(private val repository: BookRepository, private v
         return cache.getBookMemo(isbn13 = isbn13)
     }
 
-    override suspend fun updateBookMemo(isbn13: String, memo: String) {
+    override suspend fun insertBookMemo(isbn13: String, memo: String): Result<Unit> {
         println("update book memo : $memo")
-        val result = cache.getBookMemo(isbn13 = isbn13)
-        if (result.isFailure) {
-            cache.insertBookMemo(isbn13 = isbn13, memo = memo)
-        } else {
-            cache.updateBookMemo(isbn13 = isbn13, memo = memo)
-        }
+        return cache.insertBookMemo(isbn13 = isbn13, memo = memo)
     }
 }

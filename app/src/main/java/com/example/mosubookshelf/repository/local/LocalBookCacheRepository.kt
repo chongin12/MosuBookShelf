@@ -42,38 +42,26 @@ class LocalBookCacheRepository(context: Context): BookCacheRepository {
         }
     }
 
-    override suspend fun cacheBook(book: BookDetailDTO) {
-        insertBook(bookDetailDTO = book)
+    override suspend fun cacheBook(book: BookDetailDTO): Result<Unit> {
+        return runCatching { db.bookDao().insert(book.convertToEntity()) }
     }
 
-    override suspend fun cacheSearchResult(keyword: String, searchResult: SearchResultDTO) {
-        db.bookDao().saveSearchResults(
-            keyword = keyword,
-            total = searchResult.total,
-            page = searchResult.page ?: "1",
-            books = searchResult.books.map { it.convertToEntity() },
-        )
+    override suspend fun cacheSearchResult(keyword: String, searchResult: SearchResultDTO): Result<Unit> {
+        return runCatching {
+            db.bookDao().saveSearchResults(
+                keyword = keyword,
+                total = searchResult.total,
+                page = searchResult.page ?: "1",
+                books = searchResult.books.map { it.convertToEntity() },
+            )
+        }
     }
 
     override suspend fun getBookMemo(isbn13: String): Result<String> {
         return runCatching { db.bookDao().getBookMemo(isbn13).memo }
     }
 
-    override suspend fun insertBookMemo(isbn13: String, memo: String) {
-        db.bookDao().insertBookMemo(BookMemoEntity(isbn13 = isbn13, memo = memo))
+    override suspend fun insertBookMemo(isbn13: String, memo: String): Result<Unit> {
+        return runCatching { db.bookDao().insertBookMemo(BookMemoEntity(isbn13 = isbn13, memo = memo)) }
     }
-
-    override suspend fun updateBookMemo(isbn13: String, memo: String) {
-        db.bookDao().updateBookMemo(BookMemoEntity(isbn13 = isbn13, memo = memo))
-    }
-
-    suspend fun insertBook(bookDetailDTO: BookDetailDTO) {
-        db.bookDao().insert(bookDetailDTO.convertToEntity())
-    }
-
-
-
-
-
-
 }

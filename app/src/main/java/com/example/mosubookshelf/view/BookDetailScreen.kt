@@ -73,7 +73,7 @@ fun BookDetailView(bookDetail: BookDetailVO, bookMemo: String, modifier: Modifie
         BookMemoView(
             memo = bookMemo,
             onMemoChange = onMemoChange,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
         )
     }
 }
@@ -107,10 +107,11 @@ fun BookEssentialsView(
                             Color.Transparent,
                             Color.Transparent,
                             Color.Transparent,
-                            Color.LightGray,
-                            Color.DarkGray,
-                            Color.DarkGray,
-                            Color.Black,
+                            Color.Black.copy(alpha = 0.35F),
+                            Color.Black.copy(alpha = 0.45F),
+                            Color.Black.copy(alpha = 0.55F),
+                            Color.Black.copy(alpha = 0.65F),
+                            Color.Black.copy(alpha = 0.75F),
                         ),
                     ),
                     shape = RoundedCornerShape(28.dp),
@@ -140,9 +141,9 @@ fun BookEssentialsView(
                 modifier = Modifier.padding(4.dp),
             )
             AuthorsYearPublisherView(
-                authors,
-                year,
-                publisher,
+                authors = authors,
+                year = year,
+                publisher = publisher,
                 modifier = Modifier
                     .weight(1F)
                     .wrapContentSize(),
@@ -245,6 +246,9 @@ fun BookAdditionalDetail(
             }
         })
 
+        // clipboard 로직이 왜 view에 있나요?
+        // -> 일회성, 휘발성을 가진 간단한 임시 로직이고, 변경 가능성이 극히 적기 때문에
+        //    굳이 viewModel로 넣는 것 보단 자연스러운 형태를 유지했습니다.
         val clipboardManager = LocalClipboardManager.current
 
         Button(onClick = {
@@ -259,11 +263,9 @@ fun BookAdditionalDetail(
 
 @Composable
 fun BookMemoView(memo: String, modifier: Modifier = Modifier, onMemoChange: (String) -> Unit) {
-    var text by remember { mutableStateOf(memo) }
     TextField(
-        text,
+        memo,
         onValueChange = { value ->
-            text = value
             onMemoChange(value)
         },
         modifier

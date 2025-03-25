@@ -12,7 +12,8 @@ class MockBookDetailUseCase: BookDetailUseCase {
         return Result.success("memo1")
     }
 
-    override suspend fun updateBookMemo(isbn13: String, memo: String) {
+    override suspend fun insertBookMemo(isbn13: String, memo: String): Result<Unit> {
         println("update : $isbn13 with $memo")
+        return Result.success(Unit)
     }
 }

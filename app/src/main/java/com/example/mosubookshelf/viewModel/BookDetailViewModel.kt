@@ -36,14 +36,13 @@ class BookDetailViewModel @Inject constructor(
     private fun bindMemoState() = viewModelScope.launch {
         memoState
             .debounce(1000)
-            .drop(1) // 처음 한 번은 초기값이 들어옵니다.
+            .drop(1) // 처음 한 번은 초기값이 들어오기 때문에 무시해야 합니다.
             .combine(bookDetailState) { memo, bookDetail -> memo to bookDetail }
             .collect { (memo, bookDetail) ->
                 bookDetail?.isbn13?.let { isbn13 ->
-                    useCase.updateBookMemo(isbn13 = isbn13, memo = memo)
+                    useCase.insertBookMemo(isbn13 = isbn13, memo = memo)
                 }
             }
-
     }
 
     private fun fetchBookDetail() {
