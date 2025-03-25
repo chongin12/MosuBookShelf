@@ -9,16 +9,12 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-data class NewBooksUiState(
-    var books: List<BookVO>? = null
-)
-
 @HiltViewModel
 class NewBooksViewModel @Inject constructor(
     val useCase: NewBooksUseCase
 ): ViewModel() {
-    private val _uiState = MutableStateFlow(NewBooksUiState())
-    val uiState: StateFlow<NewBooksUiState> = _uiState.asStateFlow()
+    private val _booksState = MutableStateFlow<List<BookVO>?>(null)
+    val booksState: StateFlow<List<BookVO>?> = _booksState.asStateFlow()
 
     init {
         fetchNewBooks()
@@ -31,11 +27,7 @@ class NewBooksViewModel @Inject constructor(
             }
             if (fetchedNewBooks != null) {
                 println("fetched : $fetchedNewBooks")
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        books = fetchedNewBooks
-                    )
-                }
+                _booksState.update { fetchedNewBooks }
             }
         }
     }

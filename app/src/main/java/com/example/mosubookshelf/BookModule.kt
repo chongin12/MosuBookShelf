@@ -38,7 +38,7 @@ object BookModule {
 
     @Provides
     fun provideNewBooksUseCase(
-        repository: BookRepository
+        repository: BookRepository,
     ): NewBooksUseCase {
         return DefaultNewBooksUseCase(repository)
     }

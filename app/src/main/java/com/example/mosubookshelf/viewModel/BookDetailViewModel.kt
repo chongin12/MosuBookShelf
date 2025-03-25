@@ -32,6 +32,7 @@ class BookDetailViewModel @Inject constructor(
         fetchBookMemo()
     }
 
+    @OptIn(FlowPreview::class)
     private fun bindMemoState() = viewModelScope.launch {
         memoState
             .debounce(1000)
@@ -71,8 +72,6 @@ class BookDetailViewModel @Inject constructor(
     }
 
     fun updateBookMemo(memo: String) {
-        viewModelScope.launch {
-            _memoState.emit(memo)
-        }
+        _memoState.update { memo }
     }
 }

@@ -16,12 +16,13 @@ fun NewBooksScreen(
     modifier: Modifier = Modifier,
     viewModel: NewBooksViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    if (uiState.books == null) {
+    val booksState by viewModel.booksState.collectAsStateWithLifecycle()
+    val books = booksState
+    if (books == null) {
         LinearProgressIndicator(modifier = modifier.fillMaxWidth())
     } else {
         BooksView(
-            books = uiState.books!!,
+            books = books,
             modifier = modifier,
             navigateToDetail = navigateToDetail,
         )

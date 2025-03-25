@@ -27,7 +27,7 @@ enum class RouteType(private val routeID: String, vararg val args: String) {
     fun valuedPath(vararg values: String): String {
         return listOf(routeID, *values).joinToString("/")
     }
-    val path: String
+    val route: String
         get() {
             var realPath = routeID
             args.forEach {

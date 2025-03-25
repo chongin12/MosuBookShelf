@@ -6,6 +6,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
@@ -14,7 +15,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 
 @Composable
 fun MainBottomNavigation(navController: NavController) {
-    var selectedRoute by remember { mutableStateOf(topLevelRoutes.first().routeID) }
+    var selectedRoute by rememberSaveable { mutableStateOf(topLevelRoutes.first().routeID) }
     BottomNavigation(
         backgroundColor = Color.White,
         contentColor = Color.Magenta,

@@ -33,7 +33,7 @@ fun MainNavHost(navController: NavHostController, modifier: Modifier = Modifier,
             )
         }
         composable(
-            route = RouteType.BOOK_DETAIL.path,
+            route = RouteType.BOOK_DETAIL.route,
             arguments = listOf(
                 navArgument("isbn13") { type = NavType.StringType }
             )
