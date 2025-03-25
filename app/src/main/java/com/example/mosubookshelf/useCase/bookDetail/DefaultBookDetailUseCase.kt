@@ -1,13 +1,10 @@
-package com.example.mosubookshelf.useCase
+package com.example.mosubookshelf.useCase.bookDetail
 
 import com.example.mosubookshelf.models.BookDetailVO
-import com.example.mosubookshelf.repository.*
+import com.example.mosubookshelf.repository.BookCacheRepository
+import com.example.mosubookshelf.repository.BookRepository
+import com.example.mosubookshelf.useCase.convert
 
-interface BookDetailUseCase {
-    suspend fun getBookDetail(isbn13: String): Result<BookDetailVO>
-    suspend fun getBookMemo(isbn13: String): Result<String>
-    suspend fun updateBookMemo(isbn13: String, memo: String)
-}
 
 class DefaultBookDetailUseCase(private val repository: BookRepository, private val cache: BookCacheRepository): BookDetailUseCase {
     override suspend fun getBookDetail(isbn13: String): Result<BookDetailVO> {
@@ -35,19 +32,5 @@ class DefaultBookDetailUseCase(private val repository: BookRepository, private v
         } else {
             cache.updateBookMemo(isbn13 = isbn13, memo = memo)
         }
-    }
-}
-
-class MockBookDetailUseCase: BookDetailUseCase {
-    override suspend fun getBookDetail(isbn13: String): Result<BookDetailVO> {
-        return Result.success(BookDetailVO.sample1)
-    }
-
-    override suspend fun getBookMemo(isbn13: String): Result<String> {
-        return Result.success("memo1")
-    }
-
-    override suspend fun updateBookMemo(isbn13: String, memo: String) {
-        println("update : $isbn13 with $memo")
     }
 }

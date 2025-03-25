@@ -1,17 +1,12 @@
 package com.example.mosubookshelf.viewModel
 
 import androidx.lifecycle.*
-import com.example.mosubookshelf.useCase.BookDetailUseCase
+import com.example.mosubookshelf.useCase.bookDetail.BookDetailUseCase
 import com.example.mosubookshelf.models.BookDetailVO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-
-
-data class BookDetailUiState(
-    var book: BookDetailVO? = null,
-)
 
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(

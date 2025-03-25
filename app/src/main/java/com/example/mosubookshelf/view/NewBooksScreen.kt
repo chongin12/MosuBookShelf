@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.mosubookshelf.useCase.MockNewBooksUseCase
+import com.example.mosubookshelf.useCase.newBooks.MockNewBooksUseCase
 import com.example.mosubookshelf.viewModel.NewBooksViewModel
 
 @Composable

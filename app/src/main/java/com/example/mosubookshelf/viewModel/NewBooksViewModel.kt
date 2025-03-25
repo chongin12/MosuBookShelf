@@ -2,7 +2,7 @@ package com.example.mosubookshelf.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mosubookshelf.useCase.NewBooksUseCase
+import com.example.mosubookshelf.useCase.newBooks.NewBooksUseCase
 import com.example.mosubookshelf.models.BookVO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
