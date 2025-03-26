@@ -13,6 +13,7 @@ import com.example.mosubookshelf.repository.local.db.entities.*
         BookMemoEntity::class,
     ],
     version = 1,
+    exportSchema = false,
 )
 abstract class BookDatabase: RoomDatabase() {
     abstract fun bookDao(): BookDao

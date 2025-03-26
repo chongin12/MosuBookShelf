@@ -1,10 +1,7 @@
-import org.jetbrains.kotlin.fir.declarations.builder.buildScript
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization") version "2.0.21"
     id("com.google.dagger.hilt.android") version "2.51.1"
     id("com.google.devtools.ksp") version "2.0.21-1.0.27"
     id("kotlin-kapt")
@@ -55,27 +52,22 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.core.ktx)
 
-    val nav_version = "2.8.9"
-
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.material)
 
-    // JSON serialization library, works with the Kotlin serialization plugin
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
-    val room_version = "2.6.1"
-    implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -88,7 +80,7 @@ dependencies {
 
 buildscript {
     dependencies {
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.28-alpha")
+        classpath(libs.hilt.android.gradle.plugin.v228alpha)
     }
 }
 

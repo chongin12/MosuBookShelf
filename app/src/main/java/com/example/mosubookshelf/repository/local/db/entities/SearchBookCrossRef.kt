@@ -1,8 +1,6 @@
 package com.example.mosubookshelf.repository.local.db.entities
 
-import androidx.room.Entity
-import androidx.room.ForeignKey
-
+import androidx.room.*
 
 @Entity(
     tableName = "search_book_cross_ref",
@@ -20,6 +18,10 @@ import androidx.room.ForeignKey
             childColumns = ["isbn13"],
             onDelete = ForeignKey.CASCADE,
         )
+    ],
+    indices = [
+        Index(value = ["isbn13"]),
+        Index(value = ["keyword", "page"])
     ]
 )
 data class SearchBookCrossRef(
