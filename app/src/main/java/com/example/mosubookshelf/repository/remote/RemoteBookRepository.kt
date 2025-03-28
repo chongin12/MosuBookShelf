@@ -2,18 +2,20 @@ package com.example.mosubookshelf.repository.remote
 
 import com.example.mosubookshelf.models.*
 import com.example.mosubookshelf.repository.BookRepository
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
-class RemoteBookRepository: BookRepository {
+class RemoteBookRepository : BookRepository {
     private val BASE_URL = "https://api.itbook.store/1.0/"
 
     private val api: ITBookAPI by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(DefaultJsonSerializer.asConverterFactory("application/json".toMediaType()))
             .build()
-            .create(ITBookAPI::class.java)
+            .create()
     }
 
     override suspend fun getNewBooks(): Result<List<BookDTO>> {

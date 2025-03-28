@@ -10,6 +10,7 @@ fun Modifier.safeClickable(
     onClick: () -> Unit
 ): Modifier = composed {
     var lastClickTime by remember { mutableLongStateOf(0L) }
+
     this.clickable {
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastClickTime >= delayMillis) {

@@ -22,9 +22,7 @@ class NewBooksViewModel @Inject constructor(
 
     private fun fetchNewBooks() {
         viewModelScope.launch {
-            val fetchedNewBooks = withContext(Dispatchers.IO) {
-                useCase.getNewBooks().getOrNull()
-            }
+            val fetchedNewBooks = useCase.getNewBooks().getOrNull()
             if (fetchedNewBooks != null) {
                 println("fetched : $fetchedNewBooks")
                 _booksState.update { fetchedNewBooks }

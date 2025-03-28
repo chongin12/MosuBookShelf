@@ -1,5 +1,9 @@
 package com.example.mosubookshelf.models
 
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+
 data class BookVO(
     val title: String,
     val subtitle: String,
@@ -28,6 +32,7 @@ data class BookVO(
     }
 }
 
+@Serializable
 data class BookDTO(
     val title: String?,
     val subtitle: String?,
@@ -57,8 +62,20 @@ data class BookDTO(
     }
 }
 
+@Serializable
 data class NewBooksResponse(
     val error: String?,
     val total: String?,
     val books: List<BookDTO>,
 )
+
+@OptIn(ExperimentalSerializationApi::class)
+val DefaultJsonSerializer by lazy {
+    Json {
+        prettyPrint = true
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        explicitNulls = true
+        coerceInputValues = true
+    }
+}

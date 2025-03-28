@@ -6,7 +6,10 @@ import com.example.mosubookshelf.repository.BookRepository
 import com.example.mosubookshelf.useCase.convert
 
 
-class DefaultBookDetailUseCase(private val repository: BookRepository, private val cache: BookCacheRepository): BookDetailUseCase {
+class DefaultBookDetailUseCase(
+    private val repository: BookRepository,
+    private val cache: BookCacheRepository,
+): BookDetailUseCase {
     override suspend fun getBookDetail(isbn13: String): Result<BookDetailVO> {
         var result = cache.getBookDetail(isbn13 = isbn13)
         if (result.getOrNull() == null) {

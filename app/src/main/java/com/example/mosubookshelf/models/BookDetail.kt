@@ -1,5 +1,7 @@
 package com.example.mosubookshelf.models
 
+import kotlinx.serialization.Serializable
+
 data class BookDetailVO(
     val title: String,
     val subtitle: String,
@@ -34,6 +36,7 @@ data class BookDetailVO(
     }
 }
 
+@Serializable
 data class BookDetailDTO(
     val error: String?,
     val title: String?,

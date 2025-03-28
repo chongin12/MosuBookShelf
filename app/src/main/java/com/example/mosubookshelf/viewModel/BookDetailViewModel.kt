@@ -13,11 +13,7 @@ class BookDetailViewModel @Inject constructor(
     private val useCase: BookDetailUseCase,
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
-    private val isbn13LiveData: LiveData<String> = savedStateHandle.getLiveData("isbn13")
-    private val isbn13: String?
-        get() {
-            return isbn13LiveData.value
-        }
+    private val isbn13: String? = savedStateHandle.get<String>("isbn13")
 
     private val _bookDetailState = MutableStateFlow<BookDetailVO?>(null)
     val bookDetailState: StateFlow<BookDetailVO?> = _bookDetailState.asStateFlow()

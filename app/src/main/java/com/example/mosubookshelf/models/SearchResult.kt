@@ -1,5 +1,7 @@
 package com.example.mosubookshelf.models
 
+import kotlinx.serialization.Serializable
+
 data class SearchResultVO(
     val total: Int,
     val page: Int,
@@ -29,6 +31,7 @@ data class SearchResultVO(
     }
 }
 
+@Serializable
 data class SearchResultDTO(
     val error: String?,
     val total: String?,
